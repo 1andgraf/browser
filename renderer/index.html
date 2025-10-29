@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>My Browser</title>
+  </head>
+  <body
+    style="
+      margin: 0;
+      font-family: -apple-system, system-ui, sans-serif;
+      background: #0f1720;
+      color: #e5e7eb;
+    "
+  >
+    <div
+      id="tab-strip"
+      style="
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        height: 26px;
+        padding: 4px 8px;
+        background: #111827;
+        -webkit-app-region: drag;
+      "
+    >
+      <div
+        id="tabs"
+        style="display: flex; gap: 6px; -webkit-app-region: no-drag"
+      ></div>
+      <button
+        id="add-tab"
+        style="
+          -webkit-app-region: no-drag;
+          border: 1px solid #374151;
+          background: #1f2937;
+          color: #e5e7eb;
+          border-radius: 10px;
+          width: 26px;
+          height: 26px;
+          cursor: pointer;
+        "
+      >
+        +
+      </button>
+    </div>
+
+    <div
+      id="toolbar"
+      style="
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        height: 34px;
+        padding: 2px 8px;
+        background: rgb(28, 42, 59);
+        -webkit-app-region: no-drag;
+        border-bottom: 1px solid rgb(50, 59, 74);
+      "
+    >
+      <button
+        id="back"
+        title="Back"
+        style="
+          width: 28px;
+          height: 28px;
+          background: #1f2937;
+          color: #e5e7eb;
+          border: 1px solid #374151;
+          border-radius: 8px;
+        "
+      >
+        ◀
+      </button>
+      <button
+        id="forward"
+        title="Forward"
+        style="
+          width: 28px;
+          height: 28px;
+          background: #1f2937;
+          color: #e5e7eb;
+          border: 1px solid #374151;
+          border-radius: 8px;
+        "
+      >
+        ▶
+      </button>
+      <button
+        id="reload"
+        title="Reload"
+        style="
+          width: 28px;
+          height: 28px;
+          background: #1f2937;
+          color: #e5e7eb;
+          border: 1px solid #374151;
+          border-radius: 8px;
+        "
+      >
+        ⟳
+      </button>
+      <input
+        id="url"
+        placeholder="Search or type URL"
+        style="
+          flex: 1;
+          height: 26px;
+          padding: 0 10px;
+          border-radius: 16px;
+          border: 1px solid #374151;
+          background: #111827;
+          color: #e5e7eb;
+        "
+      />
+      <button
+        id="bookmark"
+        title="Add bookmark"
+        style="
+          width: 28px;
+          height: 28px;
+          background: #1f2937;
+          color: #e5e7eb;
+          border: 1px solid #374151;
+          border-radius: 8px;
+        "
+      >
+        ★
+      </button>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>

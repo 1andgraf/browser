@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>New Tab</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body
+    style="
+      margin: 0;
+      background: #0f1720;
+      color: #e5e7eb;
+      height: 100vh;
+      font-family: -apple-system, system-ui, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    "
+  >
+    <div style="text-align: center; width: 100%; padding: 0 16px">
+      <div
+        style="
+          font-weight: 800;
+          font-size: 48px;
+          letter-spacing: 2px;
+          margin-bottom: 24px;
+        "
+      >
+        FL BROWSER
+      </div>
+
+      <form id="search-form" style="display: flex; justify-content: center">
+        <input
+          id="search-input"
+          autocomplete="off"
+          placeholder="Search or type a URL"
+          style="
+            width: 100%;
+            max-width: 640px;
+            height: 44px;
+            padding: 0 14px;
+            border-radius: 22px;
+            border: 1px solid #374151;
+            background: #111827;
+            color: #e5e7eb;
+            outline: none;
+          "
+        />
+      </form>
+
+      <div
+        id="bookmarks"
+        style="
+          width: 760px;
+          margin: 20px auto 0;
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(180px, 180px));
+          justify-content: center;
+          gap: 10px;
+        "
+      ></div>
+    </div>
+
+    <script>
+      (function () {
+        const form = document.getElementById("search-form");
+        const input = document.getElementById("search-input");
+        const bookmarksEl = document.getElementById("bookmarks");
+
+        function toUrlOrSearch(value) {
+          let q = value.trim();
+          if (!q) return null;
+          const hasProtocol = /^https?:\/\//i.test(q);
+          const looksLikeHost = /\./.test(q) || q.startsWith("localhost");
+          if (hasProtocol) return q;
+          if (looksLikeHost) return "https://" + q;
+          return "https://www.google.com/search?q=" + encodeURIComponent(q);
+        }
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          const target = toUrlOrSearch(input.value);
+          if (target) {
+            window.location.href = target;
+          }
+        });
+
+        input.focus();
+
+        function renderBookmarks(list) {
+          if (!Array.isArray(list)) return;
+          bookmarksEl.innerHTML = "";
+          list.forEach((b) => {
+            const item = document.createElement("div");
+            item.style.display = "flex";
+            item.style.alignItems = "center";
+            item.style.gap = "8px";
+            item.style.padding = "8px 10px";
+            item.style.border = "1px solid #374151";
+            item.style.background = "#111827";
+            item.style.color = "#e5e7eb";
+            item.style.borderRadius = "10px";
+            item.style.width = "160px";
+            item.style.height = "34px";
+
+            const a = document.createElement("a");
+            a.href = b.url;
+            a.textContent = b.title || b.url;
+            a.style.flex = "1";
+            a.style.color = "#e5e7eb";
+            a.style.textDecoration = "none";
+            a.style.overflow = "hidden";
+            a.style.whiteSpace = "nowrap";
+            a.style.textOverflow = "ellipsis";
+            a.addEventListener("click", function (e) {
+              e.preventDefault();
+              window.location.href = b.url;
+            });
+
+            const close = document.createElement("button");
+            close.textContent = "✕";
+            close.style.width = "24px";
+            close.style.height = "24px";
+            close.style.border = "1px solid #374151";
+            close.style.borderRadius = "6px";
+            close.style.background = "#1f2937";
+            close.style.color = "#e5e7eb";
+            close.addEventListener("click", function () {
+              if (window.apiView && window.apiView.removeBookmark) {
+                window.apiView.removeBookmark(b.url);
+              }
+            });
+
+            item.appendChild(a);
+            item.appendChild(close);
+            bookmarksEl.appendChild(item);
+          });
+        }
+
+        if (window.apiView && window.apiView.listBookmarks) {
+          window.apiView.listBookmarks().then(renderBookmarks);
+          if (window.apiView.onBookmarksUpdate) {
+            window.apiView.onBookmarksUpdate(renderBookmarks);
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>
