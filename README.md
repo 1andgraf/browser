@@ -7,7 +7,8 @@ A minimal browser built with Electron.
 
 ## Install
 
-```bash
+1) Clone repo
+2) ```bash
 npm install
 npm start
 ```
